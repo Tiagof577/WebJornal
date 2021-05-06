@@ -22,27 +22,19 @@
           ><!--:to="{ name: 'quizzes' }"  :disabled="!isUserLoggedIn" -->
           <b-nav-item>CONTACTOS</b-nav-item>
           <!-- to="#contacts" -->
-          <!--<div v-if="isUserLoggedIn">
-            <div v-if="getUserType === 'user'">
-              <b-nav-item :to="{ name: 'profile' }">
-                <img
-                  class="avatar"
-                  :src="
-                    require(`@/assets/avatars/${
-                      this.getUserLevelByPoints(
-                        this.getProfile.gamification.points
-                      ).avatar
-                    }.png`)
-                  "
-                  :title="getProfileName"
-                />
-              </b-nav-item>
-            </div>
-            <div v-else>
-              <b-nav-item :to="{ name: 'admin' }">ADMIN</b-nav-item>
-            </div>
-          </div>-->
-          <div>
+
+          <div v-if="isUserLoggedIn">
+            <b-dropdown id="dropdown-1" text="Conta" class="m-md-2">
+          <b-dropdown-item>Perfil</b-dropdown-item>
+    <b-dropdown-item>Assinatura</b-dropdown-item>
+    <b-dropdown-divider></b-dropdown-divider>
+    <b-dropdown-item @click="logout()">log Out</b-dropdown-item>
+    <div v-if="getUserType !== 'user'">
+    <b-dropdown-item :to="{ name: 'admin' }">ADMIN</b-dropdown-item>
+    </div>
+  </b-dropdown>
+          </div>
+          <div v-if="!isUserLoggedIn">
             <b-nav-item :to="{ name: 'login' }">LOGIN</b-nav-item>
           </div>
         </b-navbar-nav>
@@ -51,4 +43,34 @@
   </div>
 </template>
 
-<script></script>
+<script>
+import { mapGetters } from "vuex";
+export default {
+  computed: {
+    ...mapGetters("auth", [
+      "isUserLoggedIn",
+      "getProfileName",
+      "getUserType",
+      "getProfile"
+    ])
+  },
+  methods: {
+    logout() {
+      this.$confirm(
+        "Se sim, clique em OK",
+        "Queres mesmo sair do Animalec?",
+        "warning",
+        { confirmButtonText: "OK", cancelButtonText: "Cancelar" }
+      ).then(
+        () => {
+          this.$store.commit(`auth/AUTH_LOGOUT_SUCCESS`);
+          this.$router.push("/").catch(()=>{});
+        },
+        () => {
+          this.$alert("Estás de volta!", "Informação", "info");
+        }
+      );
+    },
+}
+}
+</script>

@@ -6,11 +6,11 @@
       <b-row>
         <b-col cols="4"></b-col>
         <b-col cols="4">
-          <form ><!--@submit.prevent="login"-->
+          <form @submit.prevent="iniciarsessao" :model="login">
             <div class="form-group">
               <input
                 type="text"
-                v-model="username"
+                v-model="login.username"
                 class="form-control form-control-lg"
                 id="exampleInputEmail1"
                 placeholder="escreve o teu username"
@@ -20,7 +20,7 @@
             <div class="form-group">
               <input
                 type="password"
-                v-model="password"
+                v-model="login.password"
                 class="form-control form-control-lg"
                 id="exampleInputPassword1"
                 placeholder="escreve a tua password"
@@ -46,33 +46,35 @@
 </template>
 
 <script>
-/*import { MODULE_BASE, AUTH_LOGIN } from "@/store/auth/auth.constants";
-import HeaderPage from "@/components/HeaderPage.vue";
+import { mapActions, mapGetters } from "vuex";
 import router from "@/router";
-import { mapGetters } from "vuex";*/
+
 export default {
-  name: "Login",
-  data: function() {
+  name: 'Login',
+  data() {
     return {
-      username: "",
-      password: ""
-    };
-  },/*
+      login:{
+        username: '',
+        password: '',
+        error: '',
+      },
+    }
+  },
   computed: {
     ...mapGetters("auth", ["getMessage"])
   },
   methods: {
-    login() {
-      this.$store
-        .dispatch(`${MODULE_BASE}/${AUTH_LOGIN}`, this.$data)
-        .then(() => {
-          this.$alert(this.getMessage, "Login", "success");
-          router.push({ name: "home" });
-        })
-        .catch(err => {
-          this.$alert(`${err.message}`, "Erro", "error");
-        });
+    ...mapActions({
+      logIn: "auth/login"
+    }),
+
+    async iniciarsessao() {
+      this.logIn({ ...this.login });
+      setTimeout(function(){router.push("/"); }, 1000);
+      
+     
     }
-  }*/
-};
+  }
+}
 </script>
+

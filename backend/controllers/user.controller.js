@@ -42,48 +42,7 @@ exports.getOne = (req, res) => {
 exports.create = (req, res) => {
     const errors = validationResult(req).array();
     console.log(req.body);
-    if (errors.length > 0) return res.status(406).send(errors);
-        
-    User.findOne({
-        
-        "auth.username": req.body.auth.username
-    }, (error, user) => {
-        if (error) throw error;
-        if (user) return res.status(UserMessages.error.e0.http).send(UserMessages.error.e0)
-
-        new User({
-            name: req.body.name,
-            type: req.body.type,
-            birth_date: req.body.birth_date,
-            location: {
-                city: req.body.location.city,
-                district: req.body.location.district,
-                country: req.body.location.country
-            },
-            auth: {
-                username: req.body.auth.username,
-                password: req.body.auth.password
-            }
-        }).save((error, user) => {
-            if (error) throw error;
-
-            let payload = {
-                pk: user.auth.public_key
-            }
-
-            let options = {
-                expiresIn: CONFIG.auth.expiration_time,
-                issuer: CONFIG.auth.issuer
-            };
-
-            let token = JWT.sign(payload, user.auth.private_key, options);
-
-
-            let message = UserMessages.success.s0;
-            message.body = user;
-            return res.header("location", "/users/" + user._id).header("Authorization", token).status(message.http).send(message);
-        })
-    });
+    
 
 }
 

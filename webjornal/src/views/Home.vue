@@ -7,27 +7,27 @@
 <script>
 // @ is an alias to /src
 import Noticia from "@/components/Noticias"
-
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "Home",
   components: {
     Noticia
   },
-  data() {
-    return {
-      noticias: [],
-    }
-  },methods: {
-    async fetchNoticias() {
-      const res = await fetch('http://localhost:8085/noticias')
-      
-      const data = await res.json()
-      return data.body
-    }
+  computed: {
+    ...mapGetters({
+      noticias: "noticias/noticias"
+    })
   },
+
   async created() {
-    this.noticias = await this.fetchNoticias()
+    this.findNoticias();
   },
+
+  methods: {
+    ...mapActions({
+      findNoticias: "noticias/findNoticias"
+    })
+  }
 };
 </script>

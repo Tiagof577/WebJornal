@@ -21,6 +21,21 @@ const routes = [
     component: () => import("../views/Register")
   },
   {
+    path: "/admin/noticias",
+    name: "listNoticias",
+    component: () => import("@/views/Noticias/listNoticias")
+  },
+  {
+    path: "/admin/addnoticia",
+    name: "addNoticia",
+    component: () => import("@/views/Noticias/addNoticias")
+  },
+  {
+    path: "/admin",
+    name: "admin",
+    component: () => import("../views/Admin")
+  },
+  {
     path: "/noticia/:noticiaId",
     name: "noticia",
     component: () => import("@/views/Noticia.vue"),

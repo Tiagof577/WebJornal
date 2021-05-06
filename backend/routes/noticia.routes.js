@@ -20,4 +20,6 @@ router.route('/')
 router.route('/:id')
     .get([param("id").isMongoId()], NoticiaController.getOne);
 
+
+
 module.exports = router;

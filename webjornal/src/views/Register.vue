@@ -5,12 +5,23 @@
       <!--FORM--><b-row>
         <b-col cols="4"></b-col>
         <b-col cols="4">
-          <form @submit.prevent="register">
+          <form @submit.prevent="register" :model="user">
             <div class="form-group">
               <input
-                v-model="name"
+                v-model="user.email"
+                type="email"
+                value="Tiago Fernandes"
+                class="form-control form-control-lg"
+                id="txtEmail"
+                placeholder="escreve o teu E-mail"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <input
+                v-model="user.name"
                 type="text"
-                value="ricardo queiros"
+                value="Tiago Fernandes"
                 class="form-control form-control-lg"
                 id="txtName"
                 placeholder="escreve o teu nome"
@@ -18,41 +29,21 @@
               />
             </div>
             <div class="form-group">
-              <input
-                v-model="birth_date"
+              <b-form-datepicker 
+                id="birth_date" 
+                class="mb-2"
+                v-model="user.birth_date"
                 type="text"
                 value="2019-11-11"
                 onmouseenter="(this.type='date')"
                 onmouseleave="(this.type='text')"
-                class="form-control form-control-lg"
-                id="txtBirthDate"
                 placeholder="escreve a tua data de nascimento"
                 required
               />
             </div>
             <div class="form-group">
               <input
-                v-model="location.city"
-                type="text"
-                class="form-control form-control-lg"
-                id="txtCity"
-                placeholder="escreve a cidade onde vives"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <input
-                v-model="location.country"
-                type="text"
-                class="form-control form-control-lg"
-                id="txtCountry"
-                placeholder="escreve o teu país"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <input
-                v-model="auth.username"
+                v-model="user.username"
                 type="text"
                 value="ricardo.queiros@gmail.com"
                 class="form-control form-control-lg"
@@ -63,7 +54,7 @@
             </div>
             <div class="form-group">
               <input
-                v-model="auth.password"
+                v-model="user.password"
                 type="password"
                 class="form-control form-control-lg"
                 id="txtPassword"
@@ -97,32 +88,31 @@
   </section>
 </template>
 
+
 <script>
-
-
-import router from "../router";
-import { mapGetters } from "vuex";
+import { mapActions } from "vuex";
 
 export default {
   name: "Register",
-  
-  data: function() {
+data() {
     return {
-      location: { city: "", district: "", country: "" },
-      auth: { username: "", password: "" },
-      active: true,
-      name: "",
-      type: "user",
-      birth_date: "",
-      description: ""
-    };
+      user: {
+        name: '',
+        username: '',
+        email: '',
+        password: '',
+        birth_date: '',
+        error: '',
+      },
+    }
   },
-  computed: {
-    ...mapGetters("auth", ["getMessage"])
-  },
-  methods: {
-    register() {
-      if (
+    methods: {
+    ...mapActions({
+      registar: "auth/registar"
+    }),
+
+    async register() {
+     if (
         document.querySelector("#txtPassword").value !==
         document.querySelector("#txtConfirmPassword").value
       ) {
@@ -132,15 +122,8 @@ export default {
           "error"
         );
       } else {
-        this.$store
-          .dispatch(`auth/`, this.$data)
-          .then(() => {
-            this.$alert(this.getMessage, "Registo", "success");
-            router.push({ name: "home" });
-          })
-          .catch(err => {
-            this.$alert(err.message, "Erro", "error");
-          });
+        this.registar({ ...this.user });
+        this.$router.push('/login');
       }
     }
   }

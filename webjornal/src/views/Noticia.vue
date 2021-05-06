@@ -3,29 +3,28 @@
 </template>
 <script>
 import Noticia from "@/components/Noticia"
+import { mapActions, mapGetters } from "vuex";
 
 export default {
     name: 'noticia',
     components:{
         Noticia
     },
-    data() {
-    return {
-      noticia: [],
-    }
-  },methods: {
-    async fetchNoticia(id) {
-      const res = await fetch(`http://localhost:8085/noticias/${id}`, {
-        method: 'GET',
-      })
-      
-      const data = await res.json()
-      console.log(data.body)
-      return data.body
-    }
+  computed: {
+    ...mapGetters({
+      noticia: "noticias/noticia"
+    })
   },
-    async created() {
-        this.noticia = await this.fetchNoticia(this.$route.params.noticiaId);
-    },
+
+  async created() {
+    this.findNoticia(this.$route.params.noticiaId);
+  },
+
+  methods: {
+    ...mapActions({
+      findNoticia: "noticias/findNoticia"
+    })
+  }
+
 }
 </script>

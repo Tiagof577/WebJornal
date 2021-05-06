@@ -21,6 +21,7 @@ exports.get = (req, res) => {
 }
 
 exports.create = (req, res) => {
+    console.log(req.body);
     const errors = validationResult(req).array();
     if (errors.length > 0) return res.status(406).send(errors);
 
