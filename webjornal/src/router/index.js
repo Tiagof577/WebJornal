@@ -31,6 +31,11 @@ const routes = [
     component: () => import("@/views/Noticias/addNoticias")
   },
   {
+    path: "/admin/editnoticia",
+    name: "editNoticia",
+    component: () => import("@/views/Noticias/editNoticias")
+  },
+  {
     path: "/admin",
     name: "admin",
     component: () => import("../views/Admin")

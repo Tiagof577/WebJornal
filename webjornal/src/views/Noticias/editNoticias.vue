@@ -22,7 +22,7 @@
       <b-row>
         <b-col cols="2"></b-col>
         <b-col cols="8">
-          <form @submit.prevent="add">
+          <form @submit.prevent="update">
             <div class="form-group">
               <input
                 v-model="noticia.titulo"
@@ -35,7 +35,7 @@
             </div>
             <div class="form-group">
               <input
-                v-model="noticia.grupo"
+                v-model="noticia.group"
                 type="text"
                 class="form-control"
                 id="txtName"
@@ -78,37 +78,39 @@
     </b-container>
   </section>
 </template>
-
 <script>
-import router from "@/router";
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
+import router from '@/router'
 export default {
-   data() {
-    return {
-      noticia: {
-        titulo: '',
-        grupo: '',
-        corpo: '',
-        description: '',
-      },
-    }
-  },
+    
+  
   methods: {
-      add() {
-          console.log(this.$data)
-        this.addNoticia(this.$data)
+      ...mapActions({
+      findNoticia: "noticias/findNoticia",
+      editNoticia: "noticias/editNoticia"
+    }),
+    update() {
+        
+        this.editNoticia(JSON.parse(JSON.stringify(this.noticia)))
         .then(
         () => {
           router.push({name: 'listNoticias'});
         },
         err => {
           this.$alert(`${err.message}`, "Erro", "error");
-        }
-      );
-    },
-    ...mapActions({
-      addNoticia: "noticias/addNoticia"
-    }),
+        });
+    }
   },
-}
+  computed: {
+    ...mapGetters({
+      noticia: "noticias/noticia"
+    })
+  },
+
+  async created() {
+    await this.findNoticia(this.$route.params.noticiaId);
+  },
+
+
+};
 </script>

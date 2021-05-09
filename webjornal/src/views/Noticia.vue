@@ -1,5 +1,7 @@
 <template>
-    <Noticia :noticia="noticia"/>
+<div>
+  <Noticia :noticia="noticia"/>
+</div>
 </template>
 <script>
 import Noticia from "@/components/Noticia"

@@ -1,5 +1,18 @@
 <template>
 <section>
+    <div v-if="getUserType !== 'user'">
+        <router-link
+        tag="button"
+        :to="{name:'editNoticia', params:{noticiaId: noticia._id}}"
+        class="btn btn-outline-success mr-2"
+        ><i class="fas fa-edit"></i> EDITAR</router-link>
+        <button
+        v-if="getUserType === 'admin'"
+        @click="eliminar(noticia._id)"
+        type="button"
+        class="btn btn-outline-danger mr-2"
+        ><i class="fas fa-trash-alt"></i> REMOVER</button>
+    </div>
     <div class="container">
         <div class="heading">
             <h2>{{ noticia.titulo }}</h2>
@@ -22,10 +35,24 @@
 </section>
 </template>
 <script>
+import { mapGetters } from "vuex";
 export default {
     name: "Noticia",
     props: {
     noticia: Array,
+  },
+  methods: {
+      eliminar(id){
+      console.log(id);
+    },
+  },
+  computed: {
+    ...mapGetters("auth", [
+      "isUserLoggedIn",
+      "getProfileName",
+      "getUserType",
+      "getProfile"
+    ])
   },
 }
 </script>

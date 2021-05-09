@@ -20,7 +20,7 @@
         <b-col cols="1"></b-col>
       </b-row>
       
-      <!--TABLE
+      <!--TABLE-->
       <b-row>
         <b-col cols="1"></b-col>
         <b-col>
@@ -28,31 +28,33 @@
             <thead class="thead-dark">
               <tr>
                 <th scope="col">
-                  Noticia
-                  <i class="fas fa-arrow-up" v-if="sortType===1" @click="sort()"></i>
-                  <i class="fas fa-arrow-down" v-else  @click="sort()"></i>                
+                  Noticia             
                   </th>
-                <th scope="col">NÍVEL</th>
+                <th scope="col">Autor</th>
+                <th scope="col">Data</th>
+                <th scope="col">Grupo</th>
                 <th scope="col">AÇÕES</th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="question of questions" :key="question._id">
-                <td  class="pt-4">{{question.question}}</td>
-                <td class="pt-4">{{question.level}}</td>
+              <tr v-for="noticia of noticias" :key="noticia._id">
+                <td  class="pt-4">{{noticia.titulo}}</td>
+                <td class="pt-4">Autor</td>
+                <td class="pt-4">Data</td>
+                <td  class="pt-4">{{noticia.group}}</td>
                 <td>
                   <router-link
-                    :to="{name:'editQuestion', params:{questionId: question._id}}"
                     tag="button"
+                    :to="{name:'editNoticia', params:{noticiaId: noticia._id}}"
                     class="btn btn-outline-success mr-2"
                   ><i class="fas fa-edit"></i> EDITAR</router-link>
-                  <button
-                    @click="viewQuestion(question._id)"
+                  <router-link
+                    :to="{name: 'noticia', params:{noticiaId: noticia._id}}"
                     type="button"
                     class="btn btn-outline-warning mr-2"
-                  ><i class="fas fa-search"></i> VER</button>
+                  ><i class="fas fa-search"></i> VER</router-link>
                   <button
-                    @click="removeQuestion(question._id)"
+                    @click="eliminar(noticia._id)"
                     type="button"
                     class="btn btn-outline-danger mr-2"
                   ><i class="fas fa-trash-alt"></i> REMOVER</button>
@@ -62,29 +64,33 @@
           </table>
         </b-col>
           <b-col cols="1"></b-col>
-      </b-row>-->
+      </b-row>
     </b-container>
   </section>
 </template>
 
 <script>
-
-
+import { mapActions, mapGetters } from "vuex";
 
 export default {
-  name: "ListQuestions",
-   components: {
-    
-  },
-  
+  name: "listNoticias",
   computed: {
-    
+    ...mapGetters({
+      noticias: "noticias/noticias"
+    })
   },
+
+  async created() {
+    this.findNoticias();
+  },
+
   methods: {
-    
-  },
-  created() {
-    
+    eliminar(id){
+      console.log(id);
+    },
+    ...mapActions({
+      findNoticias: "noticias/findNoticias"
+    })
   }
 };
 </script>

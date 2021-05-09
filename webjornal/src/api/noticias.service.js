@@ -1,4 +1,5 @@
 import API_URL from "./config.js";
+import axios from "axios";
 
 export const noticiasService = {
 
@@ -13,34 +14,50 @@ export const noticiasService = {
           method: 'GET',
         })
         const data = await res.json()
-        console.log(data.body)
         return data.body
       },
       
       async addNoticia(payload) {
-        const response = await fetch(`${API_URL}/noticias`, {
+        console.log(payload)
+        axios.post(`${API_URL}/noticias/add`, payload)
+        .then(res => {
+          this.error = '',res;
+        }, err => {
+          console.log(err.response)
+          this.error = err.response.data.error
+        })
+        
+      },
+      /*async editNoticia(payload) {
+        
+        const response = await fetch(`${API_URL}/noticias/update`, {
           method: "POST",
-          body: JSON.stringify(payload)
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.parse(JSON.stringify(payload))
         })
         if (response.ok) {
           return await response.json();
         } else {
           throw Error(handleResponses(response.status));
         }
+      },*/
+      async editNoticia(payload) {
+        console.log(payload)
+        axios.post(`${API_URL}/noticias/update`, payload)
+        .then(res => {
+          this.error = '',res;
+        }, err => {
+          this.error = err.response.data.error
+        })
+        
       },
+    
     
 
 }
-function handleResponses(code) {
-  let message = ""
-  switch (code) {
-    case 401:
-      message = "Não está autorizado a executar esta ação!"
-      break;
-    default:
-      message = "Mensagem desconhecida"
-      break;
-  }
-  return message
-}
+
+
+
 export default noticiasService;

@@ -47,6 +47,10 @@ export default {
       },
     
       actions: {
+        async editNoticia(payload){
+            await noticiasService.editNoticia(payload);
+          
+        },
         async findNoticias({ commit }) {
           try {
             commit("NOTICIAS_STARTED");
@@ -60,7 +64,6 @@ export default {
             try {
               commit("NOTICIA_STARTED");
               const noticia = await noticiasService.fetchNoticia(payload);
-              console.log("hello");
               commit("NOTICIA_SUCCESS", noticia);
             } catch (error) {
               commit("NOTICIA_ERROR", error);

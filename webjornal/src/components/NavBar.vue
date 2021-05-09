@@ -1,5 +1,5 @@
 <template>
-  <div>
+    <div>
     <b-navbar toggleable="lg" type="dark" variant="dark">
       <b-navbar-brand href="#" class="ml-5">
         <router-link
@@ -24,15 +24,15 @@
           <!-- to="#contacts" -->
 
           <div v-if="isUserLoggedIn">
-            <b-dropdown id="dropdown-1" text="Conta" class="m-md-2">
+            <b-nav-item-dropdown id="dropdown-1" text="Conta" class="m-md-2">
           <b-dropdown-item>Perfil</b-dropdown-item>
     <b-dropdown-item>Assinatura</b-dropdown-item>
     <b-dropdown-divider></b-dropdown-divider>
     <b-dropdown-item @click="logout()">log Out</b-dropdown-item>
     <div v-if="getUserType !== 'user'">
-    <b-dropdown-item :to="{ name: 'admin' }">ADMIN</b-dropdown-item>
+      <b-dropdown-item :to="{ name: 'admin' }">ADMIN</b-dropdown-item>
     </div>
-  </b-dropdown>
+    </b-nav-item-dropdown>
           </div>
           <div v-if="!isUserLoggedIn">
             <b-nav-item :to="{ name: 'login' }">LOGIN</b-nav-item>
@@ -40,7 +40,7 @@
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
-  </div>
+    </div>
 </template>
 
 <script>
