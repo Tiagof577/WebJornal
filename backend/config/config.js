@@ -3,7 +3,10 @@ module.exports = {
         uri: 'mongodb://localhost:27017/WebJornal',
         collections: {
             noticia: 'noticias',
-            user: 'users'
+            user: 'users',
+            funcionario: 'funcionarios',
+            assinatura: 'assinarutas',
+            pagamento: 'pagamentos',
         }
     },
     auth: {

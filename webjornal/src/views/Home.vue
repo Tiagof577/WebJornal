@@ -1,6 +1,15 @@
 <template>
   <div class="home">
-    <Noticia :noticias="noticias"/>
+    <h1>Desporto</h1>
+    <b-button :to="{name: 'noticias', params:{tipo: 'desporto'}}">Ver mais</b-button>
+    <Noticia :noticias="noticias" tipo="desporto"/>
+    <h1>Economia</h1>
+    <b-button :to="{name: 'noticias', params:{tipo: 'economia'}}">Ver mais</b-button>
+    <Noticia :noticias="noticias" tipo="economia"/>
+    <h1>politica</h1>
+    <b-button :to="{name: 'noticias', params:{tipo: 'politica'}}">Ver mais</b-button>
+    <Noticia :noticias="noticias" tipo="politica"/>
+    
   </div>
 </template>
 

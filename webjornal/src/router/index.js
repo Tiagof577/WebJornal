@@ -41,9 +41,30 @@ const routes = [
     component: () => import("../views/Admin")
   },
   {
+    path: "/admin/funcionarios",
+    name: "listFuncionarios",
+    component: () => import("@/views/Funcionarios/listFuncionarios")
+  },
+  {
+    path: "/admin/addfuncionario",
+    name: "addFuncionario",
+    component: () => import("@/views/Funcionarios/addFuncionarios")
+  },
+  {
+    path: "/admin/editfuncionario",
+    name: "editFuncionario",
+    component: () => import("@/views/Funcionarios/editFuncionarios")
+  },
+  {
     path: "/noticia/:noticiaId",
     name: "noticia",
     component: () => import("@/views/Noticia.vue"),
+  },
+  {
+    path: "/noticias/:tipo",
+    name: "noticias",
+    props: true,
+    component: () => import("@/views/Noticias.vue"),
   },
   {
     path: "/about",

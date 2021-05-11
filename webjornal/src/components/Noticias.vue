@@ -2,6 +2,7 @@
   <div>
     <b-card-group columns style="margin: 50px">
       <div :key="noticia._id" v-for="noticia in noticias">
+        <div v-if="noticia.group===tipo">
         <b-link :to="{name: 'noticia', params:{noticiaId: noticia._id}}">
         <b-card
           :title="noticia.titulo"
@@ -18,6 +19,7 @@
         </b-card>
         </b-link>
       </div>
+      </div>
     </b-card-group>
   </div>
 </template>
@@ -26,6 +28,7 @@ export default {
   name: "Noticias",
   props: {
     noticias: Array,
+    tipo: String,
   },
 };
 </script>

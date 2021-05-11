@@ -16,11 +16,11 @@
       <b-collapse id="nav-collapse" is-nav>
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto mr-5">
-          <b-nav-item>ANIMAIS</b-nav-item
+          <b-nav-item :to="{name: 'noticias', params:{tipo: 'desporto'}}">Desporto</b-nav-item
           ><!-- :to="{ name: 'animals' }" :disabled="!isUserLoggedIn" -->
-          <b-nav-item>QUIZZES</b-nav-item
+          <b-nav-item :to="{name: 'noticias', params:{tipo: 'politica'}}">Politica</b-nav-item
           ><!--:to="{ name: 'quizzes' }"  :disabled="!isUserLoggedIn" -->
-          <b-nav-item>CONTACTOS</b-nav-item>
+          <b-nav-item :to="{name: 'noticias', params:{tipo: 'economia'}}">Economia</b-nav-item>
           <!-- to="#contacts" -->
 
           <div v-if="isUserLoggedIn">
