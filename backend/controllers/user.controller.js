@@ -8,7 +8,9 @@ const CONFIG = require("../config/config");
 
 exports.get = (req, res) => {
 
-    User.find(req.query, (error, users) => {
+    /*User.find({nif: req.body.nif}, (error, users) => {
+
+        console.log(users);
         if (error) throw error;
 
         let message = UserMessages.success.s2;
@@ -18,18 +20,19 @@ exports.get = (req, res) => {
 
         message.body = users;
         return res.status(message.http).send(message);
-    });
+    });*/
 
 }
 
 exports.getOne = (req, res) => {
-
+    
     const errors = validationResult(req).array();
     if (errors.length > 0) return res.status(406).send(errors);
 
     User.findOne({
-        _id: req.params.id
+        nif: req.params.nif
     }, (error, user) => {
+        console.log(user)
         if (error) throw error;
         if (!user) return res.status(UserMessages.error.e1.http).send(UserMessages.error.e1);
         let message = UserMessages.success.s2;

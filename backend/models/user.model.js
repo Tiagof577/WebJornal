@@ -24,6 +24,28 @@ const userSchema = new Schema({
         type: Boolean,
         default: true
     },
+    nif: {
+        type: Number,
+        unique: true
+    },
+    funcionario: {
+        escritor: {
+            type: Boolean,
+            default: false
+        },
+        humanos: {
+            type: Boolean,
+            default: false
+        },
+        funcionario: {
+            type: Boolean,
+            default: false
+        },
+        admin: {
+            type: Boolean,
+            default: false
+        },
+    }
 
 });
 

@@ -2,24 +2,18 @@ const express = require('express');
 let router = express.Router();
 const Noticia = require('../models/noticia.model');
 const NoticiaController = require('../controllers/noticia.controller');
-const {
-    body,
-    param,
-    sanitizeBody
-} = require('express-validator');
 const CONFIG = require("../config/config");
-
-router.route('/')
-    .get( NoticiaController.get)
-    .post( [body('titulo').isString(),
-        body('group').isString(),
-        body('description').isString(),
-        body('corpo').isString(),
-        sanitizeBody('description').whitelist(CONFIG.sanitize.alphabet + CONFIG.sanitize.numerical)
-    ], NoticiaController.create);
+const {
+  body,
+  param,
+  sanitizeBody
+} = require('express-validator');
 
 router.route('/:id')
-    .get([param("id").isMongoId()], NoticiaController.getOne);
+.get([param("id").isMongoId()], NoticiaController.getOne);
+
+router.route('/')
+    .get(NoticiaController.get)
 
 router.route('/add')
 .post((req, res, next) => {
@@ -64,22 +58,6 @@ router.route('/update')
     if (err) return res.send(500, {error: err});
     return res.send('Succesfully saved.');
 });
-/*req.newData.username = req.user.username;
-
-MyModel.findOneAndUpdate(query, req.newData, {upsert: true}, function(err, doc) {
-    if (err) return res.send(500, {error: err});
-    return res.send('Succesfully saved.');
-});
-  console.log(req.body.state.noticia._id)
-  const editNoticia = new Noticia({
-    _id: req.body.state.noticia._id
-  })
-   editNoticia.updateOne({
-    titulo: req.body.state.noticia.titulo,
-    group: req.body.state.noticia.grupo,
-    corpo: req.body.state.noticia.corpo,
-    description: req.body.state.noticia.description
-  })*/
 })
 
 module.exports = router;

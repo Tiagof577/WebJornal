@@ -6,7 +6,7 @@ const NoticiaMessages = require("../messages/noticia.messages");
 
 exports.get = (req, res) => {
 
-    Noticia.find(req.query).populate("comments.user", "name").exec((error, noticias) => {
+    Noticia.find(req.query).exec((error, noticias) => {
         if (error) throw error;
 
         let message = NoticiaMessages.success.s2;
@@ -44,7 +44,7 @@ exports.getOne = (req, res) => {
 
     Noticia.findOne({
         _id: req.params.id
-    }).populate("comments.user", "name").exec((error, noticia) => {
+    }).exec((error, noticia) => {
         if (error) throw error;
         if (!noticia) return res.status(NoticiaMessages.error.e0.http).send(NoticiaMessages.error.e0);
         let message = NoticiaMessages.success.s2;

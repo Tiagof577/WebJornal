@@ -9,12 +9,16 @@ export const noticiasService = {
         const data = await res.json()
         return data.body
       },
-    async fetchNoticia(id) {
-        const res = await fetch(`${API_URL}/noticias/${id}`, {
+    async fetchUser(nif) {
+        const res = await fetch(`${API_URL}/users/${nif}`, {
           method: 'GET',
         })
+        if(res){
         const data = await res.json()
         return data.body
+      }else{
+        return null
+      }
       },
       
       async addNoticia(payload) {

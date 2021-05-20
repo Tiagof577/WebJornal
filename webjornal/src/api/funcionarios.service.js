@@ -1,10 +1,11 @@
 import API_URL from "./config.js";
 import axios from "axios";
+import nifvalidation from "./nifvalidation"
 
 export const noticiasService = {
 
-    async fetchNoticias() {
-        const res = await fetch(`${API_URL}/noticias`)
+    async fetchFuncionario() {
+        const res = await fetch(`${API_URL}/funcionarios`)
         
         const data = await res.json()
         return data.body
@@ -17,9 +18,9 @@ export const noticiasService = {
         return data.body
       },
       
-      async addNoticia(payload) {
+      async addFuncionario(payload) {
         console.log(payload)
-        axios.post(`${API_URL}/noticias/add`, payload)
+        axios.post(`${API_URL}/funcionarios/add`, payload)
         .then(res => {
           this.error = '',res;
         }, err => {
@@ -54,6 +55,11 @@ export const noticiasService = {
         
       },
     
+      async createFuncionario(payload) {
+        const nifvalid = await nifvalidation.nifvalidation(payload);
+        return nifvalid
+
+      }
     
 
 }

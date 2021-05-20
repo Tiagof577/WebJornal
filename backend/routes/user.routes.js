@@ -11,6 +11,10 @@ const bcrypt = require('bcryptjs');
 const User = require('../models/user.model');
 //const AuthController = require("../controllers/auth.controller");
 
+
+router.route('/:nif')
+ .get([param("nif").isNumeric()], UserController.getOne);
+
 router.route('/')
 .post((req, res, next) => {
     const newUser = new User({

@@ -1,155 +1,109 @@
 <template>
-  <section class="page-section">
-    <b-container>
-      <!--MENU DE TOPO-->
-      <b-row class="mb-4">
-        <b-col cols="1"></b-col>
-        <b-col>
-          <router-link
-            :to="{name:'listFuncionarios'}"
-            tag="button"
-            class="btn btn-outline-primary mr-2 mt-2"
-          ><i class="fas fa-chevron-left"></i> Voltar</router-link>
-          <router-link
-            :to="{name:'admin'}"
-            tag="button"
-            class="btn btn-outline-info mr-2 mt-2"
-          ><i class="fas fa-bars"></i> MENU PRINCIPAL</router-link>
-        </b-col>
-        <b-col cols="1"></b-col>
-      </b-row>
-      <!--FORM-->
-      <b-row>
+    <section>
+        <b-container>
+        <b-row>
         <b-col cols="2"></b-col>
         <b-col cols="8">
-          <form @submit.prevent="add">
-            <div class="form-group">
-              <input
-                v-model="user.email"
-                type="email"
-                class="form-control form-control-lg"
-                id="txtEmail"
-                placeholder="escreve o teu E-mail"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <input
-                v-model="user.name"
-                type="text"
-                class="form-control form-control-lg"
-                id="txtName"
-                placeholder="escreve o teu nome"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <input
-                v-model="user.nif"
-                type="text"
-                class="form-control form-control-lg"
+            <form @submit="onSubmit">
+              <b-form-group>
+        <b>Premissões do funcionario:</b><br>
+        <b-form-checkbox
+          v-model="form.admin"
+          aria-describedby="permissions"
+          aria-controls="permissions"
+          @change="toggleAll"
+        >
+          {{ form.admin ? 'Administrador' : 'Administrador' }}
+        </b-form-checkbox>
+
+        <b-form-checkbox-group
+          id="permissions"
+          v-model="form.permission"
+          :options="permissions"
+          value-field="item"
+          text-field="name"
+          name="permissions"
+          class="ml-4"
+          aria-label="Individual permissions"
+          @change="admin"
+          stacked
+        ></b-form-checkbox-group>
+      </b-form-group>
+                <b-form-input number maxlength="9" 
                 id="nif"
-                placeholder="NIF"
+                v-model="form.nif"
                 required
-              />
-            </div>
-            <div class="form-group">
-              <b-form-datepicker 
-                id="birth_date" 
-                class="mb-2"
-                v-model="user.birth_date"
-                type="text"
-                onmouseenter="(this.type='date')"
-                onmouseleave="(this.type='text')"
-                placeholder="escreve a tua data de nascimento"
-                required
-              />
-            </div>
-            <div class="form-group">
-            <b-form-select v-model="user.tipo" :options="options"  class="mt-3"></b-form-select>
-            </div>
-            <div class="form-group">
-              <input
-                v-model="user.username"
-                type="text"
-                class="form-control form-control-lg"
-                id="txtusername"
-                placeholder="escreve o teu username"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <input
-                v-model="user.password"
-                type="password"
-                class="form-control form-control-lg"
-                id="txtPassword"
-                placeholder="escreve  a tua password"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <input
-                type="password"
-                class="form-control form-control-lg"
-                id="txtConfirmPassword"
-                placeholder="confirma a tua password"
-              />
-            </div>
-
-
-            <button type="submit" class="btn btn-outline-success mr-2"><i class="fas fa-save"></i> GRAVAR </button>
-            <router-link
-              :to="{name: 'listFuncionarios'}"
-              tag="button"
-              class="btn btn-outline-danger"
-            ><i class="fas fa-window-close"></i> CANCELAR</router-link>
-          </form>
+                placeholder="Enter your nif"
+                lazy-formatter
+                :state="nif_valid.verify"
+                :formatter="validateNIF"
+                ></b-form-input>
+                <b-form-invalid-feedback id="input-live-feedback">
+                  {{nif_valid.msg}}
+                </b-form-invalid-feedback>
+          <b-form-group v-if="conta.nif">
+            <FuncionarioConta :conta="conta"/>
+          </b-form-group>
+                <b-button type="submit" variant="primary">Submit</b-button>
+            </form>
         </b-col>
-        <b-col cols="2"></b-col>
-      </b-row>
-    </b-container>
-  </section>
+        </b-row>
+        </b-container>
+    </section>
 </template>
 
 <script>
 import router from "@/router";
-import { mapActions } from "vuex";
-export default {
-   data() {
-    return {
-      user: {
-        name: '',
-        username: '',
-        tipo: null,
-        nif: '',
-        email: '',
-        password: '',
-        birth_date: '',
-        error: '',
+import { mapActions, mapGetters } from "vuex"
+import FuncionarioConta from "../../components/FuncionarioConta"
+  export default {
+    components:{
+      FuncionarioConta
+    },
+    data() {
+      return {
+        form: {
+          nif: '',
+          _id: '',
+        permission: [],
+        admin: false,
+        },
+        permissions: ['Escritor', 'Recursos humanos', 'funcionario'],
+      }
+    },
+    computed: {
+      ...mapGetters({
+        nif_valid: "funcionarios/nif_valid",
+        conta: "funcionarios/conta"
+      })
+    },
+    methods: {
+      ...mapActions({
+        nifvalidation: "funcionarios/createFuncionario",
+        funcionarioadd: "funcionarios/addFuncionario"
+      }),
+      toggleAll(checked) {
+        this.form.permission = checked ? this.permissions.slice() : []
       },
-      options: [
-          { value: null, text: 'Please select an option' },
-          { value: 'funcionario', text: 'Funcionario' },
-          { value: 'admin', text: 'Administrador' },
-          { value: 'user', text: 'User' }
-        ]
-    }
+      admin(){
+        {
+          if (this.form.permission.length === 0) {
+          this.form.admin = false
+        } else if (this.form.permission.length === this.permissions.length) {
+          this.form.admin = true
+        } else {
+          this.form.admin = false
+        }
+        }
+      },
+      validateNIF(nif) {
+        this.nifvalidation(nif);
+        return nif
   },
-  methods: {
-      add() {
-          if (
-        document.querySelector("#txtPassword").value !==
-        document.querySelector("#txtConfirmPassword").value
-      ) {
-        this.$alert(
-          "Campos password não coincidem",
-          "Erro de validação do formulário",
-          "error"
-        );
-      } else {
-        this.registar({ ...this.user });
-        this.addFuncionario(this.$data)
+  onSubmit(event) {
+        event.preventDefault()
+        this.form._id = this.conta._id
+        this.funcionarioadd(this.form)
         .then(
         () => {
           router.push({name: 'listFuncionarios'});
@@ -158,13 +112,8 @@ export default {
           this.$alert(`${err.message}`, "Erro", "error");
         }
       );
-      }
         
-    },
-    ...mapActions({
-      addFuncionario: "funcionarios/addFuncionario",
-      registar: "auth/registar"
-    }),
-  },
-}
+      },
+      },
+    }
 </script>

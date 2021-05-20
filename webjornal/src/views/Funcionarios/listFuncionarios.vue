@@ -30,16 +30,18 @@
                 <th scope="col">
                   Funcionario             
                   </th>
-                <th scope="col">Autor</th>
-                <th scope="col">Data</th>
-                <th scope="col">Grupo</th>
+                <th scope="col">FUNCIONARIO</th>
+                <th scope="col">ESCRITOR</th>
+                <th scope="col">RECURSOS HUMANOS</th>
+                <th scope="col">DIRETOR</th>
                 <th scope="col">AÇÕES</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="funcionario of funcionarios" :key="funcionario._id">
-                <td  class="pt-4">{{funcionario.titulo}}</td>
+                <td  class="pt-4">{{funcionario.name}}</td>
                 <td class="pt-4">Autor</td>
+                <td class="pt-4">Data</td>
                 <td class="pt-4">Data</td>
                 <td  class="pt-4">{{funcionario.group}}</td>
                 <td>
@@ -89,7 +91,7 @@ export default {
       console.log(id);
     },
     ...mapActions({
-      findfuncionarios: "funcionarios/findfuncionarios"
+      findfuncionarios: "funcionarios/findFuncionarios"
     })
   }
 };
