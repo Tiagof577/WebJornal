@@ -4,14 +4,14 @@ import nifvalidation from "./nifvalidation"
 
 export const noticiasService = {
 
-    async fetchFuncionario() {
+    async fetchFuncionarios() {
         const res = await fetch(`${API_URL}/funcionarios`)
         
         const data = await res.json()
         return data.body
       },
-    async fetchNoticia(id) {
-        const res = await fetch(`${API_URL}/noticias/${id}`, {
+    async fetchFuncionario(id) {
+        const res = await fetch(`${API_URL}/funcionarios/${id}`, {
           method: 'GET',
         })
         const data = await res.json()

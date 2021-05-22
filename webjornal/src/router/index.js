@@ -51,7 +51,7 @@ const routes = [
     component: () => import("@/views/Funcionarios/addFuncionarios")
   },
   {
-    path: "/admin/editfuncionario",
+    path: "/admin/editfuncionario/:funcionarioId",
     name: "editFuncionario",
     component: () => import("@/views/Funcionarios/editFuncionarios")
   },
@@ -65,6 +65,18 @@ const routes = [
     name: "noticias",
     props: true,
     component: () => import("@/views/Noticias.vue"),
+  },
+  {
+    path: "/user",
+    name: "user",
+    props: true,
+    component: () => import("@/views/User.vue"),
+  },
+  {
+    path: "/userupdate",
+    name: "Updateuser",
+    props: true,
+    component: () => import("@/views/Updateuser.vue"),
   },
   {
     path: "/about",

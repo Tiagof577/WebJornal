@@ -28,6 +28,9 @@ const userSchema = new Schema({
         type: Number,
         unique: true
     },
+    assinatura:{
+        id_assinatura: String
+    },
     funcionario: {
         escritor: {
             type: Boolean,

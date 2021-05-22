@@ -4,7 +4,6 @@ module.exports = {
         collections: {
             noticia: 'noticias',
             user: 'users',
-            funcionario: 'funcionarios',
             assinatura: 'assinarutas',
             pagamento: 'pagamentos',
         }

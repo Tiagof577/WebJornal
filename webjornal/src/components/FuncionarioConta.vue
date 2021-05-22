@@ -52,7 +52,7 @@
 export default {
     name: "FuncionarioConta",
     props: {
-    conta: Array,
+    conta: Object,
   },
 }
 </script>

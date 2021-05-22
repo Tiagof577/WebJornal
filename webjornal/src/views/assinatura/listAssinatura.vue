@@ -40,22 +40,10 @@
             <tbody>
               <tr v-for="funcionario of funcionarios" :key="funcionario._id">
                 <td  class="pt-4">{{funcionario.name}}</td>
-                <td class="pt-4">
-                  <i v-if="!funcionario.funcionario.funcionario" class="fas fa-times"></i>
-                  <i v-if="funcionario.funcionario.funcionario" class="fas fa-check"></i>
-                </td>
-                <td class="pt-4">
-                  <i v-if="!funcionario.funcionario.escritor" class="fas fa-times"></i>
-                  <i v-if="funcionario.funcionario.escritor" class="fas fa-check"></i>
-                </td>
-                <td class="pt-4">
-                  <i v-if="!funcionario.funcionario.humanos" class="fas fa-times"></i>
-                  <i v-if="funcionario.funcionario.humanos" class="fas fa-check"></i>
-                </td>
-                <td  class="pt-4">
-                  <i v-if="!funcionario.funcionario.admin" class="fas fa-times"></i>
-                  <i v-if="funcionario.funcionario.admin" class="fas fa-check"></i>
-                </td>
+                <td class="pt-4">Autor</td>
+                <td class="pt-4">Data</td>
+                <td class="pt-4">Data</td>
+                <td  class="pt-4">{{funcionario.group}}</td>
                 <td>
                   <router-link
                     tag="button"

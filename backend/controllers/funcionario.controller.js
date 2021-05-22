@@ -2,7 +2,25 @@ const User = require('../models/user.model');
 const {
     validationResult
 } = require('express-validator');
-const NoticiaMessages = require("../messages/noticia.messages");
+const UserMessages = require("../messages/user.messages");
+
+exports.getOne = (req, res) => {
+    console.log("hello")
+    const errors = validationResult(req).array();
+    if (errors.length > 0) return res.status(406).send(errors);
+
+    User.findOne({
+        _id: req.params.id
+    }, (error, user) => {
+        console.log(user)
+        if (error) throw error;
+        if (!user) return res.status(UserMessages.error.e1.http).send(UserMessages.error.e1);
+        let message = UserMessages.success.s2;
+        message.body = user;
+        return res.status(message.http).send(message);
+    });
+
+}
 
 exports.get = (req, res) => {
 

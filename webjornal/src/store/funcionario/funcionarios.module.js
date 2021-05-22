@@ -74,7 +74,7 @@ export default {
         async findFuncionarios({ commit }) {
           try {
             commit("FUNCIONARIOS_STARTED");
-            const funcionarios = await funcionariosService.fetchFuncionario();
+            const funcionarios = await funcionariosService.fetchFuncionarios();
             console.log(funcionarios[0])
             commit("FUNCIONARIOS_SUCCESS", funcionarios);
           } catch (error) {
@@ -83,7 +83,6 @@ export default {
         },
         async findFuncionario({ commit }, payload) {
             try {
-              commit("FUNCIONARIO_STARTED");
               const funcionario = await funcionariosService.fetchFuncionario(payload);
               commit("FUNCIONARIO_SUCCESS", funcionario);
             } catch (error) {

@@ -25,7 +25,7 @@
 
           <div v-if="isUserLoggedIn">
             <b-nav-item-dropdown id="dropdown-1" text="Conta" class="m-md-2">
-          <b-dropdown-item>Perfil</b-dropdown-item>
+          <b-dropdown-item :to="{ name: 'user', params:{user: getProfile} }">Perfil</b-dropdown-item>
     <b-dropdown-item>Assinatura</b-dropdown-item>
     <b-dropdown-divider></b-dropdown-divider>
     <b-dropdown-item @click="logout()">log Out</b-dropdown-item>
@@ -58,7 +58,7 @@ export default {
     logout() {
       this.$confirm(
         "Se sim, clique em OK",
-        "Queres mesmo sair do Animalec?",
+        "Queres mesmo sair?",
         "warning",
         { confirmButtonText: "OK", cancelButtonText: "Cancelar" }
       ).then(

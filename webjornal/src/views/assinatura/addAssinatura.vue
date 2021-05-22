@@ -8,17 +8,17 @@
               <b-form-group>
         <b>Premissões do funcionario:</b><br>
         <b-form-checkbox
-          v-model="funcionario.funcionario.admin"
+          v-model="form.admin"
           aria-describedby="permissions"
           aria-controls="permissions"
           @change="toggleAll"
         >
-          {{ funcionario.funcionario.admin ? 'Administrador' : 'Administrador' }}
+          {{ form.admin ? 'Administrador' : 'Administrador' }}
         </b-form-checkbox>
 
         <b-form-checkbox-group
           id="permissions"
-          v-model="selected"
+          v-model="form.permission"
           :options="permissions"
           value-field="item"
           text-field="name"
@@ -31,19 +31,18 @@
       </b-form-group>
                 <b-form-input number maxlength="9" 
                 id="nif"
-                v-model="funcionario.nif"
+                v-model="form.nif"
                 required
                 placeholder="Enter your nif"
                 lazy-formatter
                 :state="nif_valid.verify"
                 :formatter="validateNIF"
-                disabled
                 ></b-form-input>
                 <b-form-invalid-feedback id="input-live-feedback">
                   {{nif_valid.msg}}
                 </b-form-invalid-feedback>
-          <b-form-group>
-            <FuncionarioConta :conta="funcionario"/>
+          <b-form-group v-if="conta.nif">
+            <FuncionarioConta :conta="conta"/>
           </b-form-group>
                 <b-button type="submit" variant="primary">Submit</b-button>
             </form>
@@ -63,25 +62,25 @@ import FuncionarioConta from "../../components/FuncionarioConta"
     },
     data() {
       return {
-        selected: [],
+        form: {
+          nif: '',
+          _id: '',
+        permission: [],
+        admin: false,
+        },
         permissions: ['Escritor', 'Recursos humanos', 'funcionario'],
       }
     },
     computed: {
       ...mapGetters({
         nif_valid: "funcionarios/nif_valid",
-        conta: "funcionarios/conta",
-        funcionario: "funcionarios/funcionario"
+        conta: "funcionarios/conta"
       })
     },
-    async created() {
-    this.findFuncionario(this.$route.params.funcionarioId);
-  },
     methods: {
       ...mapActions({
         nifvalidation: "funcionarios/createFuncionario",
-        funcionarioadd: "funcionarios/addFuncionario",
-        findFuncionario: "funcionarios/findFuncionario"
+        funcionarioadd: "funcionarios/addFuncionario"
       }),
       toggleAll(checked) {
         this.form.permission = checked ? this.permissions.slice() : []
@@ -101,8 +100,10 @@ import FuncionarioConta from "../../components/FuncionarioConta"
         this.nifvalidation(nif);
         return nif
   },
-  onSubmit() {
-        this.funcionarioUpdate(this.funcionario)
+  onSubmit(event) {
+        event.preventDefault()
+        this.form._id = this.conta._id
+        this.funcionarioadd(this.form)
         .then(
         () => {
           router.push({name: 'listFuncionarios'});

@@ -13,6 +13,9 @@ const User = require('../models/user.model');
 router.route('/')
     .get(FuncionarioController.get)
 
+    router.route('/:id')
+    .get([param("id").isMongoId()], FuncionarioController.getOne);
+
 router.route('/add')
 .post((req, res, next) => {
     
