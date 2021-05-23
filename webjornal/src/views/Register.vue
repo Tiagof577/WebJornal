@@ -27,6 +27,16 @@
               />
             </div>
             <div class="form-group">
+              <input
+                v-model="user.nif"
+                type="number"
+                class="form-control form-control-lg"
+                id="Nif"
+                placeholder="escreve o NIF"
+                required
+              />
+            </div>
+            <div class="form-group">
               <b-form-datepicker 
                 id="birth_date" 
                 class="mb-2"

@@ -67,6 +67,12 @@ const routes = [
     component: () => import("@/views/Noticias.vue"),
   },
   {
+    path: "/assinatura",
+    name: "Assinatura",
+    props: true,
+    component: () => import("@/views/Assinatura.vue"),
+  },
+  {
     path: "/user",
     name: "user",
     props: true,

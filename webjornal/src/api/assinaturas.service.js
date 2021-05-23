@@ -1,25 +1,25 @@
 import API_URL from "./config.js";
 import axios from "axios";
 
-export const noticiasService = {
+export const assinaturaService = {
 
-    async fetchNoticias() {
-        const res = await fetch(`${API_URL}/noticias`)
+    async fetchAssinaturas() {
+        const res = await fetch(`${API_URL}/assinaturas`)
         
         const data = await res.json()
         return data.body
       },
-    async fetchNoticia(id) {
-        const res = await fetch(`${API_URL}/noticias/${id}`, {
+    async fetchAssinatura(id) {
+        const res = await fetch(`${API_URL}/assinaturas/${id}`, {
           method: 'GET',
         })
         const data = await res.json()
         return data.body
       },
       
-      async addNoticia(payload) {
+      async addAssinatura(payload) {
         console.log(payload)
-        axios.post(`${API_URL}/noticias/add`, payload)
+        axios.post(`${API_URL}/assinatura/add`, payload)
         .then(res => {
           this.error = '',res;
         }, err => {
@@ -43,9 +43,9 @@ export const noticiasService = {
           throw Error(handleResponses(response.status));
         }
       },*/
-      async editNoticia(payload) {
+      async editAssinatura(payload) {
         console.log(payload)
-        axios.post(`${API_URL}/noticias/update`, payload)
+        axios.post(`${API_URL}/assinaturas/update`, payload)
         .then(res => {
           this.error = '',res;
         }, err => {
@@ -60,4 +60,4 @@ export const noticiasService = {
 
 
 
-export default noticiasService;
+export default assinaturaService;

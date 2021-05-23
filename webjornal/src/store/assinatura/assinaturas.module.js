@@ -1,17 +1,17 @@
-import noticiasService from "@/api/noticias.service.js";
+import assinaturaService from "@/api/assinaturas.service.js";
 
 export default {
     namespaced: true,
 
     state: {
         loading: false,
-        noticias: [],
-        noticia: []
+        assinaturas: [],
+        assinatura: []
       },
     
       getters: {
-        noticias: state => state.noticias || [],
-        noticia: state => state.noticia || [],
+        assinaturas: state => state.assinaturas || [],
+        assinatura: state => state.assinatura || [],
         loading: state => !!state.loading
       },
 
@@ -21,7 +21,7 @@ export default {
         },
     
         NOTICIAS_SUCCESS(state, payload) {
-          state.noticias = payload;
+          state.assinaturas = payload;
           state.loading = false;
         },
     
@@ -35,7 +35,7 @@ export default {
         },
       
         NOTICIA_SUCCESS(state, payload) {
-            state.noticia = payload;
+            state.assinatura = payload;
             state.loading = false;
         },
       
@@ -47,31 +47,31 @@ export default {
       },
     
       actions: {
-        async editNoticia(payload){
-            await noticiasService.editNoticia(payload);
+        async editAssinatura(payload){
+            await assinaturaService.editAssinatura(payload);
           
         },
-        async findNoticias({ commit }) {
+        async findAssinaturas({ commit }) {
           try {
             commit("NOTICIAS_STARTED");
-            const noticias = await noticiasService.fetchNoticias();
-            commit("NOTICIAS_SUCCESS", noticias);
+            const assinaturas = await assinaturaService.fetchAssinatura();
+            commit("NOTICIAS_SUCCESS", assinaturas);
           } catch (error) {
             commit("NOTICIAS_ERROR", error);
           }
         },
-        async findNoticia({ commit }, payload) {
+        async findAssinatura({ commit }, payload) {
             try {
               commit("NOTICIA_STARTED");
-              const noticia = await noticiasService.fetchNoticia(payload);
-              commit("NOTICIA_SUCCESS", noticia);
+              const assinatura = await assinaturaService.fetchAssinatura(payload);
+              commit("NOTICIA_SUCCESS", assinatura);
             } catch (error) {
               commit("NOTICIA_ERROR", error);
             }
           },
-          async addNoticia({ commit }, payload) {
+          async addAssinatura({ commit }, payload) {
             try {
-              await noticiasService.addNoticia(payload);
+              await assinaturaService.addAssinatura(payload);
               commit("NOTICIAS_STARTED");
             } catch (error) {
               commit("NOTICIAS_STARTED", error);

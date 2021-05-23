@@ -16,6 +16,6 @@ export default new Vuex.Store({
     noticias: moduleNoticia,
     funcionarios: moduleFuncionario,
     users: moduleUser,
-    assinatura: moduleAssinatura,
+    assinaturas: moduleAssinatura,
   }
 });
