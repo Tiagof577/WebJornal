@@ -31,7 +31,6 @@
                   Noticia             
                   </th>
                 <th scope="col">Autor</th>
-                <th scope="col">Data</th>
                 <th scope="col">Grupo</th>
                 <th scope="col">AÇÕES</th>
               </tr>
@@ -39,8 +38,7 @@
             <tbody>
               <tr v-for="noticia of noticias" :key="noticia._id">
                 <td  class="pt-4">{{noticia.titulo}}</td>
-                <td class="pt-4">Autor</td>
-                <td class="pt-4">Data</td>
+                <td class="pt-4">Tiago</td>
                 <td  class="pt-4">{{noticia.group}}</td>
                 <td>
                   <router-link

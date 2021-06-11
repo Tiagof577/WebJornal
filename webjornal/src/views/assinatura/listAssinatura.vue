@@ -10,7 +10,7 @@
             :to="{name:'addFuncionario'}"
             tag="button"
             class="btn btn-outline-success mr-2 mt-2"
-          ><i class="fas fa-plus-square"></i> ADICIONAR FUNCIONARIO</router-link>
+          ><i class="fas fa-plus-square"></i> ADICIONAR ASSINATURA</router-link>
           <router-link
             :to="{name:'admin'}"
             tag="button"
@@ -27,36 +27,27 @@
           <table class="table table-striped">
             <thead class="thead-dark">
               <tr>
-                <th scope="col">
-                  Funcionario             
-                  </th>
-                <th scope="col">FUNCIONARIO</th>
-                <th scope="col">ESCRITOR</th>
-                <th scope="col">RECURSOS HUMANOS</th>
-                <th scope="col">DIRETOR</th>
+                <th scope="col">NOME</th>
+                <th scope="col">NIF</th>
+                <th scope="col">ULTIMO ANO PAGO</th>
+                <th scope="col">DATA DE ASSINATURA</th>
                 <th scope="col">AÇÕES</th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="funcionario of funcionarios" :key="funcionario._id">
-                <td  class="pt-4">{{funcionario.name}}</td>
-                <td class="pt-4">Autor</td>
-                <td class="pt-4">Data</td>
-                <td class="pt-4">Data</td>
-                <td  class="pt-4">{{funcionario.group}}</td>
+              <tr v-for="assinatura of assinaturas" :key="assinatura._id">
+                <td  class="pt-4">{{assinatura.nome}}</td>
+                <td class="pt-4">{{assinatura.nif}}</td>
+                <td class="pt-4">{{assinatura.ano}}</td>
+                <td  class="pt-4">{{assinatura.data_assinatura}}</td>
                 <td>
                   <router-link
                     tag="button"
-                    :to="{name:'editFuncionario', params:{funcionarioId: funcionario._id}}"
+                    :to="{name:'pagamentoAssinatura', params:{assinaturaNIF: assinatura.nif}}"
                     class="btn btn-outline-success mr-2"
-                  ><i class="fas fa-edit"></i> EDITAR</router-link>
-                  <router-link
-                    :to="{name: 'funcionario', params:{funcionarioId: funcionario._id}}"
-                    type="button"
-                    class="btn btn-outline-warning mr-2"
-                  ><i class="fas fa-search"></i> VER</router-link>
+                  ><i class="fas fa-edit"></i> PAGAMENTO</router-link>
                   <button
-                    @click="eliminar(funcionario._id)"
+                    @click="eliminar(assinatura._id)"
                     type="button"
                     class="btn btn-outline-danger mr-2"
                   ><i class="fas fa-trash-alt"></i> REMOVER</button>
@@ -75,15 +66,15 @@
 import { mapActions, mapGetters } from "vuex";
 
 export default {
-  name: "listFuncionarios",
+  name: "listAssinaturas",
   computed: {
     ...mapGetters({
-      funcionarios: "funcionarios/funcionarios"
+      assinaturas: "assinaturas/assinaturas"
     })
   },
 
   async created() {
-    this.findfuncionarios();
+    this.findassinaturas();
   },
 
   methods: {
@@ -91,7 +82,7 @@ export default {
       console.log(id);
     },
     ...mapActions({
-      findfuncionarios: "funcionarios/findFuncionarios"
+      findassinaturas: "assinaturas/findAssinaturas"
     })
   }
 };

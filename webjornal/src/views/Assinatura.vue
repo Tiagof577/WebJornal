@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-if="assinatura">
+        <div v-if="assinaturas">
             <section class="page-section">
                 <b-container>
                 <b-card class="overflow-hidden mt-5" style="max-width: 1540px; ">
@@ -11,23 +11,23 @@
                     <b-col md="6">
                         <b-card-body title="PERFIL" align="center">
                         <b-card-text align="left">
-                            <h5>Dados pessoais</h5>
-                            <strong>Nome: {{user.name}} </strong>
+                            <h5>Dados da assinatura</h5>
+                            <strong>Nome:  </strong>
                             <br />
-                            <strong>Data de nascimento:  {{setCurrentDateTime(user.birth_date)}}</strong> 
+                            <strong>Data de assinatura:  </strong> 
                             <br />
-                            <strong>NIF: {{user.nif}}</strong>
+                            <strong>NIF: </strong>
                             <br />
                             <br />
                             <h5>Conta</h5>                
-                            <strong>Data de registo: {{setCurrentDateTime(user.registration_date)}}</strong> 
+                            <strong>Data de registo: </strong> 
                             <br />
-                            <strong>Username: {{user.username}}</strong> 
+                            <strong>Username: </strong> 
                             <br />
                             <br/>
                         </b-card-text>
                         <br />
-                        <b-button variant="outline-success" class="mr-2 mt-2" :to="{ name: 'Updateuser', params:{user: user} }">
+                        <b-button variant="outline-success" class="mr-2 mt-2" :to="{ name: 'Updateuser',  }">
                             <i class="fas fa-user-edit"></i> EDITAR PERFIL
                         </b-button>
                         <b-button variant="outline-danger" class="mr-2 mt-2" @click="logout()">
@@ -40,7 +40,7 @@
                 </b-container>
             </section>
         </div>
-        <div v-if="!assinatura">
+        <div v-if="!assinaturas">
             <div>
     <div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center profile-header"
         style="min-height: 600px; background-image: url(img/theme/subscritionbackground.jpg); background-size: cover; background-position: center top;">
@@ -65,6 +65,13 @@
       @hidden="resetModal"
       @ok="handleOk">
     <b-form @submit.stop.prevent="handleSubmit">
+      <b-form-group >
+        <b-form-select
+          v-model="form.anos"
+          :options="ano"
+          required
+        ></b-form-select>
+      </b-form-group>
         <b-form-group >
         <b-form-select
           v-model="form.metodo"
@@ -85,17 +92,30 @@
     </div>
 </template>
 <script>
-import {mapActions} from "vuex"
+import {mapActions, mapGetters} from "vuex"
+import router from "@/router";
 export default {
     props: ['user'],
+    created() {
+      this.findAssinatura(this.user.nif)
+    },
     data(){
         return{
-            assinatura: false,
+            assinaturas: false,
             form:{
                 metodo: null,
+                nome: '',
                 nif: '',
-                anos: '',
+                anos: null,
             },
+            ano: [
+          { value: null, text: 'Seleciona a subscrição' },
+          { value: '2021', text: '2021 1 anos' },
+          { value: '2022', text: '2022 2 anos' },
+          { value: '2023', text: '2023 3 anos' },
+          { value: '2024', text: '2024 4 anos' },
+          { value: '2025', text: '2025 5 anos' },
+        ],
             metodos: [
           { value: null, text: 'Seleciona uma opção' },
           { value: 'Paypall', text: 'Paypall' },
@@ -104,9 +124,16 @@ export default {
         ]
         }
     },
+    computed: {
+    ...mapGetters({
+      assinatura: "assinaturas/assinatura",
+      ass: "assinaturas/loading"
+    })
+  },
     methods: {
     ...mapActions({
-      addAssinaturas: "assinaturas/addAssinaturas"
+      addAssinaturas: "assinaturas/addAssinatura",
+      findAssinatura: "assinaturas/findAssinatura"
     }),
       checkFormValidity() {
         if(this.form.metodo===null){
@@ -129,9 +156,12 @@ export default {
         if (!this.checkFormValidity()) {
           return
         }
-        this.form.nif=this.user.nif
+        this.form.nif = this.user.nif
+        this.form.nome = this.user.name
+        console.log(this.form)
         // Push the name to submitted names
         this.addAssinaturas(this.form)
+        router.push("/");
         // Hide the modal manually
           this.$bvModal.hide('modal-prevent-closing')
       }

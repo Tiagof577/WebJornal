@@ -6,7 +6,7 @@
         <b-col cols="1"></b-col>
         <b-col>
           <router-link
-            :to="{name:'listNoticias'}"
+            :to="{name:'listAssinaturas'}"
             tag="button"
             class="btn btn-outline-primary mr-2 mt-2"
           ><i class="fas fa-chevron-left"></i> Voltar</router-link>
@@ -22,56 +22,23 @@
       <b-row>
         <b-col cols="2"></b-col>
         <b-col cols="8">
-          <form @submit.prevent="update">
-            <div class="form-group">
-              <input
-                v-model="noticia.titulo"
-                type="text"
-                class="form-control"
-                id="txtName"
-                placeholder="escreve o Titulo"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <input
-                v-model="noticia.group"
-                type="text"
-                class="form-control"
-                id="txtName"
-                placeholder="seleciona o grupo"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <textarea
-                id="txtDescription"
-                class="form-control"
-                placeholder="escreve uma descrição"
-                cols="30"
-                rows="10"
-                v-model="noticia.description"
-                required
-              ></textarea>
-            </div>
-            <div class="form-group">
-              <textarea
-                id="txtCorpo"
-                class="form-control"
-                placeholder="corpo da noticia"
-                cols="30"
-                rows="10"
-                v-model="noticia.corpo"
-                required
-              ></textarea>
-            </div>
-            <button type="submit" class="btn btn-outline-success mr-2"><i class="fas fa-save"></i> GRAVAR </button>
-            <router-link
-              :to="{name: 'listNoticias'}"
-              tag="button"
-              class="btn btn-outline-danger"
-            ><i class="fas fa-window-close"></i> CANCELAR</router-link>
-          </form>
+          <b-form @submit.prevent="update">
+      <b-form-group >
+        <b-form-select
+          v-model="form.anos"
+          :options="ano"
+          required
+        ></b-form-select>
+      </b-form-group>
+        <b-form-group >
+        <b-form-select
+          v-model="form.metodo"
+          :options="metodos"
+          required
+        ></b-form-select>
+      </b-form-group>
+      <b-button type="submit" variant="primary">Submit</b-button>
+    </b-form>
         </b-col>
         <b-col cols="2"></b-col>
       </b-row>
@@ -82,19 +49,42 @@
 import { mapActions, mapGetters } from "vuex";
 import router from '@/router'
 export default {
-    
+    data(){
+        return{
+            form:{
+                metodo: null,
+                nif: '',
+                anos: null,
+            },
+            ano: [
+          { value: null, text: 'Seleciona a subscrição' },
+          { value: '2021', text: '2021 1 anos', disabled: true},
+          { value: '2022', text: '2022 2 anos' },
+          { value: '2023', text: '2023 3 anos' },
+          { value: '2024', text: '2024 4 anos' },
+          { value: '2025', text: '2025 5 anos' },
+        ],
+            metodos: [
+          { value: null, text: 'Seleciona uma opção' },
+          { value: 'Dinheiro', text: 'Dinheiro' },
+          { value: 'Paypall', text: 'Paypall' },
+          { value: 'CartaoDeCredito', text: 'Cartão de Credito' },
+          { value: 'Transferencia', text: 'Transferencia Bancaria' }
+        ]
+        }
+    },
   
   methods: {
       ...mapActions({
-      findNoticia: "noticias/findNoticia",
-      editNoticia: "noticias/editNoticia"
+      editAssinatura: "assinaturas/editAssinatura",
+      findAssinatura: "assinaturas/findAssinatura"
     }),
     update() {
-        
-        this.editNoticia(JSON.parse(JSON.stringify(this.noticia)))
+        this.form.nif = this.$route.params.assinaturaNIF
+        this.editAssinatura(JSON.parse(JSON.stringify(this.form.anos)))
         .then(
         () => {
-          router.push({name: 'listNoticias'});
+          router.push({name: 'listAssinaturas'});
         },
         err => {
           this.$alert(`${err.message}`, "Erro", "error");
@@ -103,12 +93,12 @@ export default {
   },
   computed: {
     ...mapGetters({
-      noticia: "noticias/noticia"
+      assinatura: "assinaturas/assinatura"
     })
   },
 
   async created() {
-    await this.findNoticia(this.$route.params.noticiaId);
+    await this.findAssinatura(this.$route.params.assinaturaNIF);
   },
 
 

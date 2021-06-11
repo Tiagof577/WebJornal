@@ -85,6 +85,21 @@ const routes = [
     component: () => import("@/views/Updateuser.vue"),
   },
   {
+    path: "/admin/assinaturas",
+    name: "listAssinaturas",
+    component: () => import("@/views/assinatura/listAssinatura")
+  },
+  {
+    path: "/admin/addassinaturas",
+    name: "addAssinaturas",
+    component: () => import("@/views/assinatura/addAssinatura")
+  },
+  {
+    path: "/admin/pagamentoAssinatura/:assinaturasId",
+    name: "pagamentoAssinatura",
+    component: () => import("@/views/assinatura/editAssinatura")
+  },
+  {
     path: "/about",
     name: "About",
     // route level code-splitting

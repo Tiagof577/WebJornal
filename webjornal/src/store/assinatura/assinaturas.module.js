@@ -54,7 +54,7 @@ export default {
         async findAssinaturas({ commit }) {
           try {
             commit("NOTICIAS_STARTED");
-            const assinaturas = await assinaturaService.fetchAssinatura();
+            const assinaturas = await assinaturaService.fetchAssinaturas();
             commit("NOTICIAS_SUCCESS", assinaturas);
           } catch (error) {
             commit("NOTICIAS_ERROR", error);

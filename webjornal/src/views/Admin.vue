@@ -10,7 +10,6 @@
           </b-card-group>
           <b-card-group deck class="mt-3">
             <AdminOptionBox routeName="listAssinaturas" iconName="far fa-edit"  title="Assinaturas"/>
-            <AdminOptionBox routeName="listUtilizadores" iconName="fas fa-user"  title="Utilizadores"/>
           </b-card-group>
         </b-col>
         <b-col cols="4"></b-col>

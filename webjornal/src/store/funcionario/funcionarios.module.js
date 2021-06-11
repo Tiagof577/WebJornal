@@ -59,7 +59,7 @@ export default {
             state.loading = false;
         },
       
-        FUNCIONARIO_ERROR(state, payload) {
+        FUNCIONARIO_ERROR(state) {
             // eslint-disable-next-line
             console.error(payload);
             state.loading = false;

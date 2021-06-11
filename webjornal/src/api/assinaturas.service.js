@@ -9,8 +9,8 @@ export const assinaturaService = {
         const data = await res.json()
         return data.body
       },
-    async fetchAssinatura(id) {
-        const res = await fetch(`${API_URL}/assinaturas/${id}`, {
+    async fetchAssinatura(nif) {
+        const res = await fetch(`${API_URL}/assinaturas/${nif}`, {
           method: 'GET',
         })
         const data = await res.json()
@@ -19,7 +19,7 @@ export const assinaturaService = {
       
       async addAssinatura(payload) {
         console.log(payload)
-        axios.post(`${API_URL}/assinatura/add`, payload)
+        axios.post(`${API_URL}/assinaturas/add`, payload)
         .then(res => {
           this.error = '',res;
         }, err => {

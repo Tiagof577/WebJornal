@@ -2,7 +2,7 @@ const User = require('../models/user.model');
 const {
     validationResult
 } = require('express-validator');
-const UserMessages = require("../messages/user.messages");
+const FuncionarioMessages = require("../messages/user.messages");
 
 exports.getOne = (req, res) => {
     console.log("hello")
@@ -27,10 +27,10 @@ exports.get = (req, res) => {
     User.find({type: 'admin'}).exec((error, funcionarios) => {
         if (error) throw error;
 
-        let message = NoticiaMessages.success.s2;
+        let message = FuncionarioMessages.success.s2;
 
         if (funcionarios.length < 0)
-            message = NoticiaMessages.success.s5;
+            message = FuncionarioMessages.success.s5;
         console.log(funcionarios);
         message.body = funcionarios;
         return res.status(message.http).send(message);

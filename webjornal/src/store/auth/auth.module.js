@@ -2,7 +2,6 @@ import authService from "@/api/auth.service.js";
 
 export default {
   namespaced: true,
-
    state: {
     token:
       localStorage.getItem("user_token") ||
@@ -14,7 +13,6 @@ export default {
         "{}"
     )
   },
-  
   // getters
    getters: {
     isUserLoggedIn: state => state.token != "",
@@ -22,12 +20,9 @@ export default {
     getUserType: state => state.profile.type,
     getProfile: state => state.profile
   },
-  
   // actions
    actions: {
-   
     async registar({ commit }, payload) {
-      
       try {
         await authService.registar(payload);
         commit("REGISTAR_SUCCESS");
@@ -35,21 +30,18 @@ export default {
         commit("REGISTAR_ERROR", error);
       }
     },
-
     async login({ commit }, payload){
         await authService.login(payload)
         setTimeout(function(){ commit("AUTH_LOGIN_SUCCESS") }, 500);
         
     }
   },
-  
   // mutations
    mutations: {
     AUTH_LOGIN_SUCCESS(state) {
       state.token = localStorage.getItem('user_token');
       state.profile = localStorage.getItem('user_profile');
     },
-  
     AUTH_LOGOUT_SUCCESS(state){
       state.token = "";
       state.profile = {};
@@ -63,8 +55,4 @@ export default {
       state.message = message;
     }
   },
-
-
 }
-
-
